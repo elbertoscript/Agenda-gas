@@ -2,8 +2,11 @@
 
 function crearTablaContactos()
    {
-        let tabla = document.getElementById('tablaContactos');
-        if(tabla) tabla.remove();
+        //eliminamos la tabla si existe
+        eliminarTabla();
+
+        //crear icono de carga
+        IconoCarga('divContactos');
 
         google.script.run
         .withSuccessHandler(crearTablaContactosCorrectamente)
@@ -21,50 +24,56 @@ function crearTablaContactos()
         //header de la tabla
         let primeraFila = document.createElement('tr'); 
 
-            for(let i= 0; i<obj[0].length; i++)
-            {
-             let celda = document.createElement('td');
-             celda.textContent = obj[0][i];
-             primeraFila.appendChild(celda);
-            }
+        for(let i= 0; i<obj[0].length; i++)
+        {
+         let celda = document.createElement('td');
+         celda.textContent = obj[0][i];
+         primeraFila.appendChild(celda);
+        }
 
-            tablaHeader.appendChild(primeraFila);
-            tabla.appendChild(tablaHeader);
+        tablaHeader.appendChild(primeraFila);
+        tabla.appendChild(tablaHeader);
 
-            //body de la tabla
-            for(let i = 1; i < obj.length; i++)
-                {
-                 let fila = document.createElement('tr'); 
-                 for(let j = 0; j<obj[i].length; j++)
-                    {
-                     let celda = document.createElement('td');
-                     celda.textContent = obj[i][j];
-                     fila.appendChild(celda);
-                    }
-                    
-                    tablaBody.appendChild(fila);
-                }
+        //body de la tabla
+        for(let i = 1; i < obj.length; i++)
+        {
+         let fila = document.createElement('tr'); 
+         for(let j = 0; j<obj[i].length; j++)
+         {
+          let celda = document.createElement('td');
+          celda.textContent = obj[i][j];
+          fila.appendChild(celda);
+         }
+         tablaBody.appendChild(fila);
+        }
 
-            //agregamos clases a la cabecera
-            tablaHeader.classList.add('table-dark');
+        //agregamos clases a la cabecera
+        tablaHeader.classList.add('table-dark');
 
-            //agregamos el cuerpo a la tabla
-            tabla.appendChild(tablaBody);
+        //agregamos el cuerpo a la tabla
+        tabla.appendChild(tablaBody);
 
-            //agragamos clases a la tabla
-            tabla.classList.add('table','table-striped','border','border-4','border-dark');
+        //agragamos clases a la tabla
+        tabla.classList.add('table','table-striped','border','border-4','border-dark');
 
-            //agregamos tabla a la pàgina
-            document.getElementById('divContactos').appendChild(tabla);
+        //agregamos tabla a la pàgina
+        document.getElementById('divContactos').appendChild(tabla);
 
-            //mostrar notificaciòn de ok
-            crearNotificacionOK('Contactos obtenidos correctamente','Todo en orden');
+        //mostrar notificaciòn de ok
+        crearNotificacionOK('Contactos obtenidos correctamente','Todo en orden');
+
+        //eliminar el iconoCarga
+        eliminarIconoCarga();
+
     }
 
     function crearTablaContactosError()
     {
         //mostrar Notificaciòn de error
         crearNotificacionError('Contactos perdidos','ERROR!!!');
+
+        //eliminar el iconoCarga
+        eliminarIconoCarga();
         
 
     }
@@ -121,24 +130,41 @@ function crearTablaContactos()
         let elementoNotificacion = document.getElementById("notificacion");
         elementoNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue(color);
     }
+
+    function IconoCarga(elementoPadre)
+    {
+        eliminarIconoCarga();
+        let loader = document.createElement('div');
+        loader.id = 'loader';
+        loader.appendChild(document.createElement('div'));
+        loader.appendChild(document.createElement('div'));
+        loader.appendChild(document.createElement('div'));
+        loader.appendChild(document.createElement('div'));
+        loader.classList.add('lds-ellipsis');
+        return document.getElementById(elementoPadre).appendChild(loader);
+    }
+
+    function IconoCargaPuntos(elementoPadre)
+    {
+        let loader = IconoCarga(elementoPadre);
+        loader.classList.add('lds-ellipsis');
+    }
+
+    function IconoCargaAnillo(elementoPadre)
+    {
+        let loader = IconoCarga(elementoPadre);
+        loader.classList.add('lds-ring'); 
+    }
+
+    function eliminarIconoCarga()
+    {
+        let loader = document.getElementById('loader');
+        if(loader) loader.remove();
+    }
+
+    function eliminarTabla()
+    {
+        let tabla = document.getElementById('tablaContactos');
+        if(tabla) tabla.remove();
+    }
 </script>
-
-
-
-
-    
-        
-    
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
