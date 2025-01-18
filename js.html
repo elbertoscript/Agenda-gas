@@ -6,7 +6,7 @@ function crearTablaContactos()
         eliminarTabla();
 
         //crear icono de carga
-        IconoCarga('divContactos');
+        IconoCargaAnillo('divContactos');
 
         google.script.run
         .withSuccessHandler(crearTablaContactosCorrectamente)
@@ -140,7 +140,6 @@ function crearTablaContactos()
         loader.appendChild(document.createElement('div'));
         loader.appendChild(document.createElement('div'));
         loader.appendChild(document.createElement('div'));
-        loader.classList.add('lds-ellipsis');
         return document.getElementById(elementoPadre).appendChild(loader);
     }
 
